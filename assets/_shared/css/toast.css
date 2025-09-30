@@ -1,0 +1,233 @@
+/* Toast Container */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Toast Base */
+.toast {
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: white;
+  position: relative;
+  transform: translateX(100%);
+  animation: slideIn 0.4s ease-out forwards;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border-left: 4px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 50px;
+  word-wrap: break-word;
+}
+
+/* Tipos de Toast */
+.toast.success {
+  background: linear-gradient(135deg, #4f744a 0%, #66a35f 100%);
+  border-left-color: #66a35f;
+}
+
+.toast.success::before {
+  content: '✓';
+  font-weight: bold;
+  font-size: 1.1rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toast.error {
+  background: linear-gradient(135deg, #a73636 0%, #c44444 100%);
+  border-left-color: #c44444;
+}
+
+.toast.error::before {
+  content: '✕';
+  font-weight: bold;
+  font-size: 1.1rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toast.info {
+  background: linear-gradient(135deg, #c286ba 0%, #d4a5cc 100%);
+  border-left-color: #d4a5cc;
+}
+
+.toast.info::before {
+  content: 'i';
+  font-weight: bold;
+  font-size: 1.1rem;
+  font-style: italic;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Barra de progresso */
+.toast::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 0 0 8px 8px;
+  animation: progressBar 3s linear forwards;
+}
+
+/* Animações */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+    max-height: 100px;
+    margin-bottom: 10px;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+}
+
+@keyframes progressBar {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+/* Fade out */
+.toast.fade-out {
+  animation: slideOut 0.4s ease-in forwards;
+}
+
+/* Hover Effect */
+.toast:hover {
+  transform: translateX(-5px);
+  transition: transform 0.2s ease-out;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.toast:hover::after {
+  animation-play-state: paused;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .toast-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+  
+  .toast {
+    padding: 0.875rem 1rem;
+    font-size: 0.9rem;
+    transform: translateY(-100%);
+    animation: slideInMobile 0.4s ease-out forwards;
+  }
+  
+  .toast.fade-out {
+    animation: slideOutMobile 0.4s ease-in forwards;
+  }
+  
+  @keyframes slideInMobile {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOutMobile {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+      max-height: 100px;
+      margin-bottom: 10px;
+    }
+    to {
+      transform: translateY(-100%);
+      opacity: 0;
+      max-height: 0;
+      margin-bottom: 0;
+      padding: 0;
+    }
+  }
+}
+
+/* Estados adicionais */
+.toast:active {
+  transform: scale(0.98);
+}
+
+/* Múltiplos toasts */
+.toast-container .toast:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+/* Cursor pointer para interatividade */
+.toast {
+  cursor: pointer;
+}
+
+/* Efeito de pulso sutil para chamar atenção */
+.toast {
+  animation: slideIn 0.4s ease-out forwards, subtlePulse 2s ease-in-out infinite;
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+}

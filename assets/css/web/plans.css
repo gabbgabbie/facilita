@@ -1,0 +1,80 @@
+.planos {
+      padding: 4rem 5%;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+
+    .planos h2 {
+      font-family: 'Cal Sans', sans-serif;
+      font-size: 2.2rem;
+      color: #9e6897;
+      margin-bottom: 0.5rem;
+    }
+
+    .planos .subtitulo {
+      font-family: 'Raleway', sans-serif;
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 3rem;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+      width: 280px;
+      text-align: left;
+    }
+
+    .card h3 {
+      font-family: 'Cal Sans', sans-serif;
+      font-size: 1.5rem;
+      background: linear-gradient(90deg,  #4f744a, #9e6897);
+      background-clip: text;           
+      -webkit-background-clip: text;   
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      margin-bottom: 0.3rem;
+    }
+
+    .card h4 {
+      font-family: 'Raleway', sans-serif;
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .card button {
+      background-color: #9e6897;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .card button:hover {
+      background-color: #4f744a;
+    }
+
+    #abt {
+      font-weight: bold;
+    }
+
+    

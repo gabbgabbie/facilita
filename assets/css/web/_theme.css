@@ -1,0 +1,107 @@
+   body {
+      margin: 0;
+      padding: 0;
+      padding-top: 140px;
+      font-family: 'Raleway', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background-color: #c286ba;
+      color: white;
+      padding: 2rem 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .titulo {
+      font-family: 'Cal Sans', sans-serif;
+      font-size: 3.5rem;
+      color: #4f744a;
+      margin: 0;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+      letter-spacing: 1px;
+      font-weight: bold;
+      background: linear-gradient(90deg,  #4f744a, #9e6897);
+      background-clip: text;          
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .nav-area {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #4f744a;
+    }
+
+    .botao-criar-conta {
+      background-color: white;
+      color: #9e6897;
+      padding: 0.75rem 2rem;
+      min-width: 160px;
+      text-align: center;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      border: 2px solid white;
+      font-size: 1rem;
+    }
+
+    .botao-criar-conta:hover {
+      background-color: #4f744a;
+      color: white;
+      border-color: #4f744a;
+    }
+
+    .contato h2{
+      color: #9e6897;
+      font-family: 'Cal Sans', sans-serif;
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .contato {
+      padding: 3rem 5%;
+      text-align: center;
+      color: #4f744a;
+    }

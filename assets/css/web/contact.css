@@ -1,0 +1,56 @@
+.contato {
+  padding: 3rem 5%;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.contato h2 {
+  font-family: 'Cal Sans', sans-serif;
+  font-size: 2.2rem;
+  background: linear-gradient(90deg, #4f744a, #9e6897);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  margin-bottom: 1rem;
+}
+
+.contato .subtitulo {
+  font-size: 1.2rem;
+  color: #444444;
+  margin-bottom: 2rem;
+  font-family: 'Raleway', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.card-contato {
+  background-color: #ffffff;
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.07);
+  text-align: left;
+  font-family: 'Raleway', sans-serif;
+}
+
+.card-contato h3 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #4f744a;
+}
+
+.card-contato p {
+  font-size: 1rem;
+  color: #333333;
+  margin-bottom: 0.8rem;
+}
+
+.card-contato a {
+  color: #9e6897;
+  text-decoration: none;
+}
+
+.card-contato a:hover {
+  text-decoration: underline;
+}
