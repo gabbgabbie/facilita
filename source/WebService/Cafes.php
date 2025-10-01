@@ -17,7 +17,7 @@ class Cafes extends Api
 {
     if (empty($data["name"]) || empty($data["cnpj"]) || empty($data["address"])) {
         $this->call(400, "bad_request", "Dados obrigatórios faltando", "error")->back();
-        return;
+    return;
     }
     $cafe = new Cafe(
         null,
