@@ -21,7 +21,8 @@ const ALLOWED_IMAGE_TYPES = [
     'image/jpeg',
     'image/png',
     'image/gif',
-    'image/webp'
+    'image/webp',
+    'image/jpg'
 ];
 
 const FILE_MAX_SIZE = 5 * 1024 * 1024; // 5MB

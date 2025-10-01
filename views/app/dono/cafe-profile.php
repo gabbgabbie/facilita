@@ -36,6 +36,7 @@
                             <i class="fas fa-envelope"></i> Email
                         </label>
                         <input type="email" name="email" class="form-input" id="inputEmail" required>
+                        <p> <a href="<?=url("app/dono/mudar-senha")?>">Alterar senha</a></p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">
@@ -44,7 +45,6 @@
                         <input type="tel" name="phone" class="form-input" id="inputPhone" required>
                     </div>
                 </div>
-
                 <div class="form-actions">
                     <button type="submit" class="btn btn-save">
                         <i class="fas fa-save"></i>
@@ -94,45 +94,7 @@
                 </button>
             </div>-->
 
-             
-            <h2>Alteração de Senha</h2>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-lock"></i> Senha Atual
-                    </label>
-                    <input type="password" name="oldPassword" class="form-input" placeholder="Digite sua senha atual" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-key"></i> Nova Senha
-                    </label>
-                    <input type="password" name="newPassword" class="form-input" placeholder="Digite a nova senha" required>
-                </div>
-            </div>
-
-           <!-- <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">
-                        <i class="fas fa-check"></i> Confirmar Nova Senha
-                    </label>
-                    <input type="password" class="form-input" placeholder="Confirme a nova senha" required>
-                </div>
-            </div>-->
-
-            <div class="account-info">
-                <p><strong>Dica de segurança:</strong> Use uma senha com pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos especiais.</p>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" id="btnPassword" class="btn btn-save">
-                    <i class="fas fa-shield-alt"></i>
-                    Alterar Senha
-                </button>
-            </div>
-        </div>
-    </div>
+        
 
  <?php  $this->start("specific-css"); ?>
 <link rel="stylesheet" href="<?= url("assets/css/app/dono/cafe-editprofile.css"); ?>">

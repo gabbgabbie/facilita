@@ -276,7 +276,7 @@ public function updatePhoto(): void
     exit;
 }
 
-public function updatePassword(array $data): void {
+public function updatePassword(array $data = []): void {
     $this->auth();
     $user = new User();
     $user->findByEmail($this->userAuth->email);

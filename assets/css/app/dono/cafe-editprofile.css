@@ -32,6 +32,17 @@
           justify-content: center;
           margin-bottom: 1.5rem;
         }
+         .profile-photo-large img {
+      width: 100%;       /* ocupa todo o espaço do círculo */
+      height: 100%;      /* mantém altura proporcional */
+      object-fit: cover; /* ajusta proporcionalmente, centralizando */
+      border-radius: 50%; /* mantém o círculo */
+      display: block;    /* remove espaço extra do inline */
+       }
+ 
+       a {
+        color: rgb(95, 92, 92);
+       }
 
         .profile-photo-large {
           width: 120px;
