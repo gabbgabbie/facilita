@@ -15,7 +15,10 @@ class Cafes extends Api
 
     public function createCafe(array $data)
 {
-    // código de criação da cafeteria
+    if (empty($data["name"]) || empty($data["cnpj"]) || empty($data["address"])) {
+        $this->call(400, "bad_request", "Dados obrigatórios faltando", "error")->back();
+        return;
+    }
     $cafe = new Cafe(
         null,
         $data['name'] ?? null,

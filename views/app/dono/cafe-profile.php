@@ -94,7 +94,7 @@
                 </button>
             </div>-->
 
-            <!-- Alteração de Senha 
+             
             <h2>Alteração de Senha</h2>
             
             <div class="form-row">
@@ -102,35 +102,35 @@
                     <label class="form-label">
                         <i class="fas fa-lock"></i> Senha Atual
                     </label>
-                    <input type="password" class="form-input" placeholder="Digite sua senha atual" required>
+                    <input type="password" name="oldPassword" class="form-input" placeholder="Digite sua senha atual" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-key"></i> Nova Senha
                     </label>
-                    <input type="password" class="form-input" placeholder="Digite a nova senha" required>
+                    <input type="password" name="newPassword" class="form-input" placeholder="Digite a nova senha" required>
                 </div>
             </div>
 
-            <div class="form-row">
+           <!-- <div class="form-row">
                 <div class="form-group full-width">
                     <label class="form-label">
                         <i class="fas fa-check"></i> Confirmar Nova Senha
                     </label>
                     <input type="password" class="form-input" placeholder="Confirme a nova senha" required>
                 </div>
-            </div>
+            </div>-->
 
             <div class="account-info">
                 <p><strong>Dica de segurança:</strong> Use uma senha com pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e símbolos especiais.</p>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn btn-save">
+                <button type="submit" id="btnPassword" class="btn btn-save">
                     <i class="fas fa-shield-alt"></i>
                     Alterar Senha
                 </button>
-            </div>-->
+            </div>
         </div>
     </div>
 

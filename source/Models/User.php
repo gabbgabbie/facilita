@@ -239,6 +239,11 @@ public function findByEmail(string $email): bool
         $this->setCafeId($data["cafe_id"]);
         }
 
+         if (!empty($data["password"])) {
+        $this->setPassword($data["password"]);
+        }
+
+
         if (!empty($data["email"])) {
         if (!filter_var($data["email"], FILTER_VALIDATE_EMAIL)) {
         $this->errorMessage = "E-mail inválido.";

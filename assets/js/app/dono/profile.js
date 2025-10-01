@@ -98,3 +98,9 @@ document.querySelector("#photoInput").addEventListener("change", async function 
     alert("não foi possível atualizar a foto: " + error.message);
   }
 });
+
+
+//////////////////////////////////////
+
+
+console.log(token);

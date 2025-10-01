@@ -40,4 +40,9 @@ class Owner extends Controller
     {
         echo $this->view->render("cafe-profile",[]);
     }
+
+     public function password(): void
+    {
+        echo $this->view->render("change-password",[]);
+    }
 }

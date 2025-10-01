@@ -35,6 +35,7 @@ $route->post("/add", "Users:createUser");
 
 $route->post("/addEmployee", "Users:createEmployee");
 $route->post("/update", "Users:updateUser");
+$route->post("/update/password", "Users:updatePassword");
 $route->post("/photo", "Users:updatePhoto");
 $route->delete("/delete/id/{id}", "Users:deleteUser");
 

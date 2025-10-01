@@ -27,7 +27,7 @@ formRegister.addEventListener("submit", async (event) => {
         }
         });
 
-        
+        window.location.href = "/facilita/login/";
       
         
     });
