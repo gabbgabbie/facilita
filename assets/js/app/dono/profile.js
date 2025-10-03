@@ -1,3 +1,6 @@
+import { Toast } from "/facilita/assets/_shared/js/Toast.js";
+
+const toast = new Toast();
 const token = localStorage.getItem("token");
 let usuario = JSON.parse(localStorage.getItem("user-logado"));
 console.log(usuario.photo);
@@ -79,15 +82,14 @@ document.querySelector("#photoInput").addEventListener("change", async function 
 
     const data = await response.json();
 
-    if (!response.ok) {
-      console.error("erro na resposta:", data);
+    if (data.type == "error") {
+      toast.error(data.message)
       return;
     }
 
     // att imagem e localstorage
     fotoPerfil.src = data.data.photo;
     //console.log(fotoPerfil.src)
-    alert("Foto atualizada com sucesso!");
     usuario.photo = data.data.photo;
 
     localStorage.setItem("user-logado", JSON.stringify(usuario));

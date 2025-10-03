@@ -20,9 +20,9 @@
 
       <div class="sidebar-section">
         <h3>Dados da Cafeteria</h3>
-        <p><strong>Nome:</strong> Tal Cafeteria</p>
-        <p><strong>CNPJ:</strong> 12.345.678/0001-90</p>
-        <p><strong>Endereço:</strong> Rua do Café, 123</p>
+        <p><strong>Nome:</strong> <span id="cafeName"></span></p>
+        <p><strong>CNPJ:</strong>  <span id="cafeCNPJ"></span></p>
+        <p><strong>Endereço:</strong>  <span id="cafeAddress"></span></p>
         <a href="<?=url("app/dono/perfil")?>" class="sidebar-btn">Editar Perfil</a>
         <a href="/facilita/" class="sidebar-btn">Sair</a>
       </div>

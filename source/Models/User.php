@@ -185,7 +185,34 @@ public function findByEmail(string $email): bool
     }
 }
 
+public function findByPhone(string $phone): bool
+{
+    try {
+        $stmt = Connect::getInstance()->prepare("SELECT * FROM users WHERE phone = :phone AND deleted = 0");
+        $stmt->bindValue(":phone", $phone);
+        $stmt->execute();
 
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$result) {
+            return false;
+        }
+
+        // atribuir valores ao objeto
+        $reflection = new \ReflectionClass($this);
+        foreach ($result as $column => $value) {
+            if ($reflection->hasProperty($column)) {
+                $property = $reflection->getProperty($column);
+                $property->setAccessible(true);
+                $property->setValue($this, $value);
+            }
+        }
+
+        return true;
+    } catch (PDOException $e) {
+        $this->errorMessage = "Erro na busca por telefone: {$e->getMessage()}";
+        return false;
+    }
+}
 
     public function findAll(): array
     {

@@ -21,18 +21,23 @@ class Users extends Api
 public function createUser(array $data)
 {
     if (empty($data["name"]) || empty($data["email"]) || empty($data["password"]) || empty($data["phone"])) {
-        $this->call(400, "bad_request", "Dados obrigatórios faltando", "error")->back();
+        $this->call(400, "bad_request", "Preencha todos os dados", "error")->back();
         return;
     }
 
     
     if (!isset($data["confirm-password"]) || $data["password"] !== $data["confirm-password"]) {
-        $this->call(400, "bad_request", "Senha e confirmação não conferem", "error")->back();
+        $this->call(400, "bad_request", "As senhas não coincidem", "error")->back();
         return;
     }
     $userCheck = new User();
     if ($userCheck->findByEmail($data["email"])) {
-        $this->call(400, "bad_request", "Email já cadastrado", "error")->back();
+        $this->call(400, "bad_request", "Esse email já está cadastrado", "error")->back();
+        return;
+    }
+
+    if ($userCheck->findByPhone($data["phone"])) {
+        $this->call(400, "bad_request", "Esse número de telefone já está cadastrado", "error")->back();
         return;
     }
     $cafeId = $data["cafe_id"] ?? null;
@@ -62,7 +67,7 @@ public function createUser(array $data)
         "cafe_id" => $user->getCafeId()
     ];
 
-    $this->call(201, "created", "Usuário criado com sucesso", "success")->back($response);
+    $this->call(201, "created", "Cadastro realizado com sucesso!", "success")->back($response);
 }
 
 
@@ -133,37 +138,34 @@ public function createUser(array $data)
 
         //$this->call(200, "success", "Usuário atualizado com sucesso!", "success")->back();
     }
-    public function updateCafeId(array $data): void
-    {
-        $this->auth();
-        $user = new User();
-        $user->findByEmail($this->userAuth->email);
-        //var_dump($user);
-        
-        $user->setCafeID($data["cafe_id"]);
-
-        if (!$user->update($data)) {
+public function updateCafeId(array $data): void
+{
+    $this->auth();
+    $user = new User();
+    $user->findByEmail($this->userAuth->email);
+    
+    $user->setCafeId($data["id"]);
+    
+    if (!$user->update($data)) {
         $this->call(400, "bad_request", $user->getErrorMessage() ?? "Erro ao atualizar o usuário.", "error")->back();
-        return; }
-
-        $userData = [
-            "id" => $user->getId(),
-            "name" => $user->getName(),
-            "email" => $user->getEmail(),
-            "phone" => $user->getPhone(),
-            "photo" => $user->getPhoto()
-        ];
-            echo json_encode([
-                "success" => true,
-                "message" => "usuario atualizado com sucesso",
-                "data" => $userData,
-                "trocouEmail" => false
-            ]);           
-
-
-        //$this->call(200, "success", "Usuário atualizado com sucesso!", "success")->back();
+        return;
     }
 
+    $userData = [
+        "id" => $user->getId(),
+        "name" => $user->getName(),
+        "email" => $user->getEmail(),
+        "phone" => $user->getPhone(),
+        "photo" => $user->getPhoto(),
+        "cafe_id" => $user->getCafeId() // ✅ Adicione isso para retornar o cafe_id
+    ];
+    
+    echo json_encode([
+        "success" => true,
+        "message" => "Cafe ID atualizado com sucesso",
+        "data" => $userData
+    ]);
+}
 
         public function login(array $data): void
     {

@@ -21,13 +21,16 @@ formRegister.addEventListener("submit", async (event) => {
         console.log(respose);
     respose.json().then((user) => {
             console.log(user);
-            if (user.type == "error") {
-            
-            toast.show(user.message)
-        }
+            toast.show(user.message, user.type);
+
+            if (user.type == "success") {
+                setTimeout(() => {
+                window.location.href = "/facilita/login";
+                }, 3000);
+            }
         });
 
-        window.location.href = "/facilita/login/";
+        //window.location.href = "/facilita/login/";
       
         
     });

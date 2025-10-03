@@ -62,6 +62,7 @@ class Cafes extends Api
         }
         $response = [
             "name" => $cafe->getName(),
+            "cnpj" => $cafe->getCnpj(),
             "address" => $cafe->getAddress()
         ];
         $this->call(200, "success", "Encontrado com sucesso", "success")->back($response);

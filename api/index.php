@@ -37,6 +37,7 @@ $route->post("/addEmployee", "Users:createEmployee");
 $route->post("/update", "Users:updateUser");
 $route->post("/update/password", "Users:updatePassword");
 $route->post("/photo", "Users:updatePhoto");
+$route->post("/update/cafeid", "Users:updateCafeId");
 $route->delete("/delete/id/{id}", "Users:deleteUser");
 
 $route->group("null");
