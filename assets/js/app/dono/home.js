@@ -1,7 +1,7 @@
 const token = localStorage.getItem("token");
 let usuario = JSON.parse(localStorage.getItem("user-logado"));
 
-console.log( token);
+//console.log( token);
 console.log( usuario);
 
 
@@ -20,13 +20,13 @@ nome.innerHTML = `${usuario.name}`
         </div>
     `;
 
-    console.log(usuario.photo);
+//console.log(usuario.photo);
     
 const fotoPerfil = document.querySelector(".foto-perfil");
 fotoPerfil.src = "http://localhost/facilita/storage/images/" + usuario.photo;
 
 // dados da cafeteria
-async function carregarCafe() {
+async function loadCafe() {
   if (!usuario?.cafe_id) return;
 
   try {
@@ -56,7 +56,7 @@ async function carregarCafe() {
   }
 }
 
-carregarCafe();
+loadCafe();
 
 
 

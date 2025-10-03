@@ -16,6 +16,7 @@
       <div class="user-info" id="user-info">
       <div class="user-name-display" id="user-name"></div>
       </div>
+        <a href="<?=url("app/dono/perfil")?>" class="sidebar-btn">Editar Perfil</a>
     </div>
 
       <div class="sidebar-section">
@@ -23,7 +24,7 @@
         <p><strong>Nome:</strong> <span id="cafeName"></span></p>
         <p><strong>CNPJ:</strong>  <span id="cafeCNPJ"></span></p>
         <p><strong>Endereço:</strong>  <span id="cafeAddress"></span></p>
-        <a href="<?=url("app/dono/perfil")?>" class="sidebar-btn">Editar Perfil</a>
+        <a href="<?=url("app/dono/cafeteria")?>" class="sidebar-btn">Editar dados</a>
         <a href="/facilita/" class="sidebar-btn">Sair</a>
       </div>
     </aside>

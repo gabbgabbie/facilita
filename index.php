@@ -29,6 +29,7 @@ $route->get("/produtos", "Owner:products");
 $route->get("/pedidos", "Owner:orders");
 $route->get("/tarefas", "Owner:tasks");
 $route->get("/perfil", "Owner:profile");
+$route->get("/cafeteria", "Owner:cafeProfile");
 $route->get("/mudar-senha", "Owner:password");
 $route->group(null);
 

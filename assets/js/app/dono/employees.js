@@ -5,6 +5,17 @@ const api = new HttpUser();
 const token = localStorage.getItem("token");
 const usuario = JSON.parse(localStorage.getItem("user-logado"));
 
+const fotoPerfil = document.querySelector(".profile-photo");
+fotoPerfil.src = "http://localhost/facilita/storage/images/" + usuario.photo;
+
+const sair = document.querySelector("#logout-btn");
+sair.addEventListener('click', async (e) => {
+    e.preventDefault();
+    localStorage.removeItem("user-logado");
+    localStorage.removeItem("token");
+    window.location.href = "/facilita/"
+});
+
 console.log(usuario);
 
 const profileInfo = document.querySelector("#profile-name");

@@ -51,7 +51,7 @@ $route->get("/id/{id}", "Cafes:listCafeById");
 
 $route->post("/add", "Cafes:createCafe");
 
-$route->put("/update", "Cafes:updateCafe");
+$route->post("/update", "Cafes:updateCafe");
 $route->delete("/delete/id/{id}", "Cafes:deleteCafe");
 
 //Products

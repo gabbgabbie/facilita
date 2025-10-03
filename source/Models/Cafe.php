@@ -145,4 +145,33 @@ public function findById(int $id): bool
 }
 
 
+public function findByCnpj(string $cnpj): bool
+{
+    try {
+        $stmt = Connect::getInstance()->prepare("SELECT * FROM cafes WHERE cnpj = :cnpj AND deleted = 0");
+        $stmt->bindValue(":cnpj", $cnpj);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$result) {
+            return false;
+        }
+
+        // atribuir valores ao objeto
+        $reflection = new \ReflectionClass($this);
+        foreach ($result as $column => $value) {
+            if ($reflection->hasProperty($column)) {
+                $property = $reflection->getProperty($column);
+                $property->setAccessible(true);
+                $property->setValue($this, $value);
+            }
+        }
+
+        return true;
+    } catch (PDOException $e) {
+        $this->errorMessage = "Erro na busca por cnpj: {$e->getMessage()}";
+        return false;
+    }
+}
+
 }

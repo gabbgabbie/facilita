@@ -7,7 +7,9 @@
 <div class="content-wrapper">
     <aside class="sidebar">
       <div class="profile-section" >
-        <div class="profile-photo">𐙚</div>
+        <img class="profile-photo">
+          
+</img>   
         <h2 class="profile-name" id="profile-name"></h2>
         <p class="profile-role">Proprietário</p>
         <a href="<?=url("app/dono/")?>" class="sidebar-btn">Dashboard</a>
@@ -19,7 +21,7 @@
         <a href="<?=url("app/dono/produtos")?>" class="sidebar-btn">Produtos</a>
         <a href="<?=url("app/dono/pedidos")?>" class="sidebar-btn">Pedidos</a>
         <a href="<?=url("app/dono/tarefas")?>" class="sidebar-btn">Tarefas</a>
-        <a href="/facilita/" class="sidebar-btn">Sair</a>
+        <a href="/facilita/" id="logout-btn" class="sidebar-btn">Sair</a>
       </div>
     </aside>
 

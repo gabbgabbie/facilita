@@ -19,6 +19,14 @@ class Cafes extends Api
         $this->call(400, "bad_request", "Dados obrigatórios faltando", "error")->back();
     return;
     }
+
+    $cafeCheck = new Cafe();
+
+    if ($cafeCheck->findByCnpj($data["cnpj"])) {
+        $this->call(400, "bad_request", "Esse CNPJ já está cadastrado", "error")->back();
+        return;
+    }
+
     $cafe = new Cafe(
         null,
         $data['name'] ?? null,
@@ -82,6 +90,13 @@ class Cafes extends Api
         return;
     }
 
+    $cafeCheck = new Cafe();
+
+    if ($cafeCheck->findByCnpj($data["cnpj"])) {
+        $this->call(400, "bad_request", "Esse CNPJ já está cadastrado", "error")->back();
+        return;
+    }
+
     $cafe = new Cafe(
         null,
         $data["name"] ?? null,
@@ -90,7 +105,6 @@ class Cafes extends Api
     );
     $cafe->setId((int)$data["id"]);
 
-    // Chama o método correto
     if (!$cafe->updateCafe()) {
         $this->call(500, "internal_server_error", $cafe->getErrorMessage(), "error")->back();
         return;
@@ -103,7 +117,7 @@ class Cafes extends Api
         "address" => $cafe->getAddress()
     ];
 
-    $this->call(200, "success", "Cafeteria atualizada com sucesso", "success")
+    $this->call(200, "success", "Dados da cafeteria atualizados com sucesso!", "success")
         ->back($response);
 }
 

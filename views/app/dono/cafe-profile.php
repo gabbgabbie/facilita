@@ -1,102 +1,50 @@
 <?php $this->layout("_theme",[]);?>
-<div class="main-container">
-        <div class="profile-card">
-            <div class="profile-header">
-                <div class="profile-photo-container">
-                    <div class="profile-photo-large" id="profilePhoto">
-                        <input type="file" class="photo-input" id="photoInput" accept="image/*">
-                        <div class="profile-photo-placeholder">
-                                    <img class="foto-perfil" src="" alt="Foto de perfil">
+<div class="container">
+        <div class="card">
+            <h1 class="card-title">Editar dados</h1>
+            <p class="card-subtitle">Atualize as informações da sua cafeteria</p>
 
-                            
-                        </div>
-                        <div class="photo-upload-overlay">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                    </div>
-                </div>
-                <h2 class="profile-title">Editar Perfil</h2>
-                <p class="profile-subtitle">Atualize suas informações pessoais</p>
-            </div>
-
-            <form class="profile-form">
-                <!-- Dados Pessoais -->
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label class="form-label">
-                            <i class="fas fa-user"></i> Nome
-                        </label>
-                        <input type="text" name="name" class="form-input" id="inputName" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-envelope"></i> Email
-                        </label>
-                        <input type="email" name="email" class="form-input" id="inputEmail" required>
-                        <p> <a href="<?=url("app/dono/mudar-senha")?>">Alterar senha</a></p>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">
-                            <i class="fas fa-phone"></i> Telefone
-                        </label>
-                        <input type="tel" name="phone" class="form-input" id="inputPhone" required>
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-save">
-                        <i class="fas fa-save"></i>
-                        Salvar
-                    </button>
-                </div>
-            </form>
-
-            <!-- Dados da Empresa 
-            <h2>Tal Cafeteria</h2>
-            
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">
-                        <i class="fas fa-store"></i> Nome da Empresa
-                    </label>
-                    <input type="text" class="form-input" value="Tal Cafeteria" required>
-                </div>
-            </div>
-
-            <div class="form-row">
+            <form id="cafeteriaForm">
                 <div class="form-group">
                     <label class="form-label">
-                        <i class="fas fa-envelope"></i> Email Empresarial
+                        <svg class="icon" fill="#c67bb5" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                        </svg>
+                        Nome da Cafeteria
                     </label>
-                    <input type="email" class="form-input" value="talcafeteria@facilita.com" required>
+                    <input name="name" type="text" id="inputName"  class="form-input" placeholder="Digite o nome da cafeteria">
                 </div>
+
                 <div class="form-group">
                     <label class="form-label">
-                        <i class="fas fa-id-card"></i> CNPJ
+                        <svg class="icon" fill="#c67bb5" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                        CNPJ
                     </label>
-                    <input type="text" class="form-input" value="12.345.678/0001-95" required>
+                    <input name="cnpj" type="text" id="inputCnpj" class="form-input" placeholder="00.000.000/0000-00">
                 </div>
-            </div>
 
-            <div class="form-group full-width">
-                <label class="form-label">
-                    <i class="fas fa-map-marker-alt"></i> Endereço
-                </label>
-                <input type="text" class="form-input" value="Rua das Flores, 123 - Centro" required>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn btn-save">
-                    <i class="fas fa-save"></i>
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="icon" fill="#c67bb5" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        Endereço
+                    </label>
+                    <input name="address" type="text" id="inputAddress" class="form-input" placeholder="Digite o endereço completo">
+                </div>
+                <button type="submit" class="save-btn">
+                    <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
+                        <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                    </svg>
                     Salvar
                 </button>
-            </div>-->
-
-        
+            </form>
+        </div>
+    </div>
 
  <?php  $this->start("specific-css"); ?>
-<link rel="stylesheet" href="<?= url("assets/css/app/dono/cafe-editprofile.css"); ?>">
+<link rel="stylesheet" href="<?= url("assets/css/app/dono/cafe-profile.css"); ?>">
 <?php $this->end(); ?>
-<script type="module" src="<?= url('assets/js/app/dono/profile.js') ?>"></script>
+<script type="module" src="<?= url('assets/js/app/dono/cafe-profile.js') ?>"></script>

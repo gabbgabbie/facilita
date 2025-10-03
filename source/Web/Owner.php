@@ -38,11 +38,16 @@ class Owner extends Controller
     }
     public function profile(): void
     {
-        echo $this->view->render("cafe-profile",[]);
+        echo $this->view->render("profile",[]);
     }
 
      public function password(): void
     {
         echo $this->view->render("change-password",[]);
+    }
+
+    public function cafeProfile(): void
+    {
+        echo $this->view->render("cafe-profile",[]);
     }
 }

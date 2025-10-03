@@ -157,7 +157,7 @@ public function updateCafeId(array $data): void
         "email" => $user->getEmail(),
         "phone" => $user->getPhone(),
         "photo" => $user->getPhoto(),
-        "cafe_id" => $user->getCafeId() // ✅ Adicione isso para retornar o cafe_id
+        "cafe_id" => $user->getCafeId()
     ];
     
     echo json_encode([
