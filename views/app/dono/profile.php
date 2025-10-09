@@ -53,48 +53,7 @@
                 </div>
             </form>
 
-            <!-- Dados da Empresa 
-            <h2>Tal Cafeteria</h2>
-            
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">
-                        <i class="fas fa-store"></i> Nome da Empresa
-                    </label>
-                    <input type="text" class="form-input" value="Tal Cafeteria" required>
-                </div>
-            </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-envelope"></i> Email Empresarial
-                    </label>
-                    <input type="email" class="form-input" value="talcafeteria@facilita.com" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-id-card"></i> CNPJ
-                    </label>
-                    <input type="text" class="form-input" value="12.345.678/0001-95" required>
-                </div>
-            </div>
-
-            <div class="form-group full-width">
-                <label class="form-label">
-                    <i class="fas fa-map-marker-alt"></i> Endereço
-                </label>
-                <input type="text" class="form-input" value="Rua das Flores, 123 - Centro" required>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn btn-save">
-                    <i class="fas fa-save"></i>
-                    Salvar
-                </button>
-            </div>-->
-
-        
 
  <?php  $this->start("specific-css"); ?>
 <link rel="stylesheet" href="<?= url("assets/css/app/dono/profile.css"); ?>">

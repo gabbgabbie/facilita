@@ -15,6 +15,8 @@ class User extends Model
     protected $phone;
     protected $photo;
     protected $role;
+    protected $verification_code;
+    protected $code_expires_at;
     protected $deleted;
     protected $cafe_id;
 
@@ -26,6 +28,8 @@ class User extends Model
         string $phone = null,
         string $photo = null,
         string $role = null,
+        string $verification_code = null,
+        string $code_expires_at=null,
         bool $deleted = false,
         int $cafe_id = null
     )
@@ -38,6 +42,8 @@ class User extends Model
         $this->phone = $phone;
         $this->photo = $photo;
         $this->role = $role;
+        $this->verification_code = $verification_code;
+        $this->code_expires_at = $code_expires_at;
         $this->deleted = $deleted;
         $this->cafe_id = $cafe_id;
     }
@@ -126,9 +132,61 @@ class User extends Model
 
     }
 
-     public function login () {
-        echo "Olá, {$this->name}! Você está logado!";
+    public function getVerificationCode()
+    {
+        return $this->verification_code;
     }
+
+    public function setVerificationCode(?string $code): void
+    {
+        $this->verification_code = $code;
+    }
+
+    public function getCodeExpiresAt()
+    {
+        return $this->code_expires_at;
+    }
+    
+    public function setCodeExpiresAt(?string $dateTime): void
+    {
+        $this->code_expires_at = $dateTime;
+    }
+    
+    public function getCafeId()
+    {
+        return $this->cafe_id;
+    }
+    
+    public function setCafeId(?int $cafeId): void
+    {
+        $this->cafe_id = $cafeId;
+    }
+
+    public function validateVerificationCode(string $code): bool
+    {
+        $sql = "SELECT verification_code, code_expires_at FROM users WHERE email = :email";
+        $stmt = Connect::getInstance()->prepare($sql);
+        $stmt->bindValue(':email', $this->email);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) return false;
+
+        if ($user['verification_code'] !== $code) return false;
+
+        if (strtotime($user['code_expires_at']) < time()) return false;
+
+        $sql = "UPDATE users 
+                SET verification_code = NULL, code_expires_at = NULL 
+                WHERE email = :email";
+        $stmt = Connect::getInstance()->prepare($sql);
+        $stmt->bindValue(':email', $this->email);
+        $stmt->execute();
+
+        return true;
+    }
+
 
     public function insert (): bool
     {
@@ -222,19 +280,20 @@ public function findByPhone(string $phone): bool
     }
 
 
-    public function deleteUser(int $id): bool
-    {
-        $sql = "UPDATE users SET deleted = true WHERE id = :id";
-        $stmt = Connect::getInstance()->prepare($sql);
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+public function deleteUser(int $id): bool
+{
+    $sql = "DELETE FROM users WHERE id = :id";
+    $stmt = Connect::getInstance()->prepare($sql);
+    $stmt->bindValue(":id", $id, PDO::PARAM_INT);
 
-        try {
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            $this->errorMessage = "Erro ao deletar usuário: {$e->getMessage()}";
-            return false;
-        }
+    try {
+        return $stmt->execute(); // Retorna true se deletou
+    } catch (PDOException $e) {
+        $this->errorMessage = "Erro ao deletar usuário: {$e->getMessage()}";
+        return false;
     }
+}
+
     public function update(array $data): bool
     {
 
@@ -310,15 +369,6 @@ public function findByPhone(string $phone): bool
     return false;
 }
 
-    public function getCafeId()
-    {
-        return $this->cafe_id;
-    }
-
-    public function setCafeId(?int $cafeId): void
-    {
-        $this->cafe_id = $cafeId;
-    }
 
 public function updateCafeId(): bool
 {
@@ -330,5 +380,24 @@ public function updateCafeId(): bool
     ]);
 }
 
+
+public function getVerificationCodeByEmail(string $email): ?string
+{
+    $sql = "SELECT verification_code FROM users WHERE email = :email";
+    $stmt = Connect::getInstance()->prepare($sql);
+    $stmt->execute([":email" => $email]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result ? $result["verification_code"] : null;
+}
+
+
+public function findUserByEmail(string $email): ?User
+{
+    if ($this->findByEmail($email)) { 
+        return $this; // retorna o objeto completo
+    }
+    return null;
+}
 
 }

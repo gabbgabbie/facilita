@@ -5,7 +5,7 @@ namespace Source\WebService;
 use SorFabioSantos\Uploader\Uploader;
 use Source\Models\User;
 use Source\Core\JWTToken;
-
+use Source\Utils\Emailer;
 
 class Users extends Api
 {
@@ -20,13 +20,17 @@ class Users extends Api
 
 public function createUser(array $data)
 {
-    if (empty($data["name"]) || empty($data["email"]) || empty($data["password"]) || empty($data["phone"])) {
+    if (empty($data["name"]) || empty($data["email"]) || empty($data["password"]) || empty($data["phone"]) || empty($data["confirm-password"])) {
         $this->call(400, "bad_request", "Preencha todos os dados", "error")->back();
         return;
     }
 
+    if (!filter_var($data["email"], FILTER_VALIDATE_EMAIL)) {
+        $this->call(400, "bad_request", "Email inválido", "error")->back();
+        return;
+    }
     
-    if (!isset($data["confirm-password"]) || $data["password"] !== $data["confirm-password"]) {
+    if ($data["password"] !== $data["confirm-password"]) {
         $this->call(400, "bad_request", "As senhas não coincidem", "error")->back();
         return;
     }
@@ -50,6 +54,8 @@ public function createUser(array $data)
         $data["phone"],
         $data["photo"] ?? "https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png",
         $data["role"],
+        null,
+        null,
         false,
         $cafeId
     );
@@ -58,6 +64,14 @@ public function createUser(array $data)
         $this->call(500, "internal_server_error", $user->getErrorMessage(), "error")->back();
         return;
     }
+
+    $emailer = new Emailer();
+    $sent = $emailer->sendWelcomeEmail($user->getEmail(), $user->getName());
+
+    if (!$sent) {
+        error_log("Falha ao enviar e-mail de boas-vindas para " . $user->getEmail());
+    }
+
 
     $response = [
         "name" => $user->getName(),
@@ -107,6 +121,8 @@ public function createUser(array $data)
         $user->setName($data["name"]);
         $user->setEmail($data["email"]);
         $user->setPhone($data["phone"]);
+
+        
         if (!$user->update($data)) {
         $this->call(400, "bad_request", $user->getErrorMessage() ?? "Erro ao atualizar o usuário.", "error")->back();
         return; }
@@ -116,7 +132,8 @@ public function createUser(array $data)
             "name" => $user->getName(),
             "email" => $user->getEmail(),
             "phone" => $user->getPhone(),
-            "photo" => $user->getPhoto()
+            "photo" => $user->getPhoto(),
+            "cafe_id" => $user->getCafeId()
         ];
 
         if ($data["email"] !== $this->userAuth->email) {
@@ -308,5 +325,102 @@ public function updatePassword(array $data = []): void {
 
         $this->call(200, "success", "Senha alterada com sucesso", "success")->back();
     }
+
+public function sendVerificationCode(array $data): void
+{
+    if (empty($data['email'])) {
+        $this->call(400, "bad_request", "Informe o e-mail.", "error")->back();
+        return;
+    }
+
+    $user = (new User())->findUserByEmail($data['email']);
+    if (!$user) {
+        $this->call(404, "not_found", "Usuário não encontrado.", "error")->back();
+        return;
+    }
+
+    $code = random_int(100000, 999999);
+    $expiresAt = date("Y-m-d H:i:s", strtotime("+30 minutes"));
+
+    $user->setVerificationCode($code);
+    $user->setCodeExpiresAt($expiresAt);
+    $user->updateById();
+
+    $emailer = new Emailer();
+    $sent = $emailer->sendPasswordEmail($user->getEmail(), $user->getName(), $code);
+
+    if ($sent) {
+        $this->call(200, "success", "Código de verificação enviado para seu e-mail!", "success")->back();
+    } else {
+        $this->call(500, "internal_server_error", "Falha ao enviar o e-mail.", "error")->back();
+    }
+}
+
+public function verifyPasswordCode(array $data): void
+{
+    if (empty($data["email"]) || empty($data["code"])) {
+        $this->call(400, "bad_request", "E-mail e código são obrigatórios", "error")->back();
+        return;
+    }
+
+    $user = new User();
+    if (!$user->findByEmail($data["email"])) {
+        $this->call(404, "not_found", "Usuário não encontrado", "error")->back();
+        return;
+    }
+
+    if ($user->validateVerificationCode($data["code"])) {
+        $jwt = new JWTToken();
+        $token = $jwt->create([
+            "email" => $user->getEmail(),
+            "name" => $user->getName(),
+            "role" => $user->getRole(),
+            "exp" => time() + 1800
+        ]);
+
+        $this->call(200, "success", "Código válido!", "success")->back([
+            "token" => $token,
+            "user" => [
+                    "id" => $user->getId(),
+                    "email" => $user->getEmail(),
+                    "cafe_id" => $user->getCafeId()
+                ]
+        ]);    } else {
+        $this->call(400, "bad_request", "Código inválido ou expirado.", "error")->back();
+    }
+}
+
+public function resetPassword(array $data): void
+{
+    $this->auth();
+    if (!isset($data["password"])) {
+        $this->call(400, "bad_request", "Preencha o campo da senha", "error")->back();
+        return;
+    }
+
+    if (!isset($data["confirm-password"])) {
+        $this->call(400, "bad_request", "Confirme sua senha", "error")->back();
+        return;
+    }
+
+    if ($data["password"] !== $data["confirm-password"]) {
+        $this->call(400, "bad_request", "As senhas não coincidem", "error")->back();
+        return;
+    }
+    $user = new User();
+    $user->findByEmail($this->userAuth->email);
+    $user->setPassword(password_hash($data["password"], PASSWORD_DEFAULT));
+    $user->updateById();
+
+    
+    if (!$user->updateById()) {
+        $this->call(500, "internal_server_error", "Erro ao atualizar senha", "error")->back();
+        return;
+    }
+
+    $this->call(200, "success", "Senha alterada com sucesso!", "success")->back();
+}
+
+
 }
 

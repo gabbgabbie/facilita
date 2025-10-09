@@ -1,3 +1,6 @@
+import { Toast } from "/facilita/assets/_shared/js/Toast.js";
+
+const toast = new Toast();
 let usuario = JSON.parse(localStorage.getItem("user-logado"));
 const token = localStorage.getItem("token");
 
@@ -10,7 +13,6 @@ form.addEventListener("submit", async (event) => {
   const formData = new FormData(form);
   
   try {
-    // 1. Criar a cafeteria
     console.log('Iniciando criação da cafeteria...');
     const response = await fetch("http://localhost/facilita/api/cafes/add", {
       method: "POST",
@@ -28,7 +30,8 @@ form.addEventListener("submit", async (event) => {
       return;
     }
 
-    // 2. Pegar o ID da cafeteria criada
+    toast.show(data.message, data.type)
+    // pega o id
     const cafeId = data.data.id;
     console.log('Cafe ID extraído:', cafeId);
     
@@ -38,12 +41,11 @@ form.addEventListener("submit", async (event) => {
       return;
     }
     
-    // 3. Atualizar o usuário com o cafe_id (usando FormData)
     const formCafeId = new FormData();
     formCafeId.append("id", cafeId);
 
     const updateResponse = await fetch("http://localhost/facilita/api/users/update/cafeid", {
-      method: "POST", // 🔹 melhor usar POST quando se envia FormData
+      method: "POST", 
       headers: {
         "token": token
       },
@@ -60,7 +62,6 @@ form.addEventListener("submit", async (event) => {
       return;
     }
 
-    // 4. Atualizar o localStorage com o novo cafe_id
     usuario.cafe_id = cafeId;
     localStorage.setItem("user-logado", JSON.stringify(usuario));
     

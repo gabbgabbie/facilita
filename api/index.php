@@ -38,7 +38,11 @@ $route->post("/update", "Users:updateUser");
 $route->post("/update/password", "Users:updatePassword");
 $route->post("/photo", "Users:updatePhoto");
 $route->post("/update/cafeid", "Users:updateCafeId");
+$route->post("/code/send", "Users:sendVerificationCode");
+$route->post("/code/verify-password", "Users:verifyPasswordCode");
+$route->post("/password/reset", "Users:resetPassword");
 $route->delete("/delete/id/{id}", "Users:deleteUser");
+
 
 $route->group("null");
 

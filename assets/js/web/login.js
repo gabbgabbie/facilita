@@ -54,3 +54,62 @@ formLogin.addEventListener("submit", async (event) => {
         console.error("erro ao fazer login", error);
     }
 });
+
+    const btnPassword = document.getElementById('btnPassword');
+    const modalPassword = document.getElementById('modalPassword');
+    const closeModal = document.getElementById('closeModal');
+    const formRecoverPassword = document.getElementById('formRecoverPassword');
+    const modalFormContainer = document.getElementById('modalFormContainer');
+    
+    btnPassword.addEventListener('click', () => {
+        modalPassword.classList.add('active');
+    });
+    
+    
+    formRecoverPassword.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const email = document.querySelector('#recovery-email').value
+        //console.log(email);
+        const formData = new FormData(formRecoverPassword);
+        formData.append('email', email)
+        
+        try {
+            const response = await fetch("http://localhost/facilita/api/users/code/send", {
+            method: "POST",
+            body: formData
+            });
+
+            const data = await response.json();
+            console.log(data);
+            
+            toast.show(data.message, data.type);
+
+            if (data.type == "success") {
+                localStorage.setItem("recoveryEmail", email);
+                window.location.href = "/facilita/verificação";
+            } else {
+                console.log(data.message);
+            }
+
+        } catch (err) {
+            console.error("erro ao enviar email", err);
+        }
+    })
+
+    // fechar modal
+    closeModal.addEventListener('click', () => {
+      modalPassword.classList.remove('active');
+      // reseta a modal
+      setTimeout(() => {
+        modalFormContainer.style.display = 'block';
+        formRecoverPassword.reset();
+      }, 300);
+    });
+
+    // fecha a modal qnd clicar fora dela
+    modalPassword.addEventListener('click', (e) => {
+      if (e.target === modalPassword) {
+        closeModal.click();
+      }
+    });
+

@@ -20,6 +20,8 @@ CREATE TABLE users (
     phone VARCHAR(20),
     photo varchar(255),
     role ENUM('admin', 'owner', 'employee'),
+    verification_code varchar(255) DEFAULT NULL,
+    code_expires_at DATETIME NULL, 
 	deleted bool DEFAULT FALSE,
     cafe_id INT UNSIGNED,
     FOREIGN KEY (cafe_id) REFERENCES cafes(id)

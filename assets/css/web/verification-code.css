@@ -1,0 +1,142 @@
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 50px 60px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 550px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .card-title {
+            color: #333;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .email-display {
+            color: #000;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .code-input-wrapper {
+            position: relative;
+            margin-bottom: 35px;
+        }
+
+        .code-display {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            pointer-events: none;
+        }
+
+        .code-digit {
+            width: 55px;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 3px solid #d0d0d0;
+            transition: border-color 0.3s;
+        }
+
+        .code-digit.filled {
+            border-bottom-color: #5a7d5a;
+        }
+
+        .code-digit.active {
+            border-bottom-color: #c67bb5;
+        }
+
+        .code-digit.empty {
+            color: #999;
+        }
+
+        .hidden-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .resend-section {
+            margin-bottom: 30px;
+        }
+
+        .resend-text {
+            color: #999;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .resend-link {
+            color: #c67bb5;
+            font-size: 15px;
+            font-style: italic;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: #5a7d5a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .verify-btn:hover:not(:disabled) {
+            background-color: #4a6d4a;
+        }
+
+        .verify-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 40px 30px;
+            }
+
+            .code-display {
+                gap: 8px;
+            }
+
+            .code-digit {
+                width: 45px;
+                height: 55px;
+                font-size: 28px;
+            }
+        }
+ 

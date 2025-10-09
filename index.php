@@ -18,6 +18,8 @@ $route->get("/faqs","Site:faqs");
 $route->get("/planos","Site:plans");
 $route->get("/login","Site:login");
 $route->get("/cadastro","Site:register");
+$route->get("/verificação", "Site:passwordCode");
+$route->get("/senha/reset", "Site:resetPassword");
 
 // Rotas amigáveis da área restrita
 $route->group("/app/dono");

@@ -92,10 +92,11 @@ class Cafes extends Api
 
     $cafeCheck = new Cafe();
 
-    if ($cafeCheck->findByCnpj($data["cnpj"])) {
-        $this->call(400, "bad_request", "Esse CNPJ já está cadastrado", "error")->back();
+    if ($cafeCheck->findByCnpj($data["cnpj"]) && $cafeCheck->getId() != $data["id"]) {
+        $this->call(400, "bad_request", "Esse CNPJ já está cadastrado em outra conta", "error")->back();
         return;
     }
+
 
     $cafe = new Cafe(
         null,

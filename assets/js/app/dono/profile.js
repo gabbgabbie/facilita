@@ -43,7 +43,7 @@ form.addEventListener("submit", async (event) => {
     }
 
 
-    alert("Perfil atualizado!");
+   toast.show(data.message, data.type)
     
     localStorage.setItem("user-logado", JSON.stringify(data.data));
     location.reload();

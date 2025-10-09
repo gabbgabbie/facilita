@@ -51,4 +51,14 @@ class Site extends Controller
         echo $this->view->render("register");
     }
 
+        public function passwordCode(): void
+    {
+        echo $this->view->render("forgot-password",[]);
+    }
+
+    public function resetPassword(): void
+    {
+        echo $this->view->render("reset-password",[]);
+    }
+
 }
