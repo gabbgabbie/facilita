@@ -14,4 +14,14 @@ class Employee extends Controller
         echo $this->view->render("home",[]);
     }
 
+        public function profile(): void
+    {
+        echo $this->view->render("profile",[]);
+    }
+
+    public function password(): void
+    {
+        echo $this->view->render("change-password",[]);
+    }
+
 }

@@ -7,9 +7,7 @@
 <div class="content-wrapper">
     <aside class="sidebar">
       <div class="profile-section" >
-        <img class="profile-photo">
-          
-</img>   
+        <img class="profile-photo"></img>   
         <h2 class="profile-name" id="profile-name"></h2>
         <p class="profile-role">Proprietário</p>
         <a href="<?=url("app/dono/")?>" class="sidebar-btn">Dashboard</a>
@@ -21,7 +19,7 @@
         <a href="<?=url("app/dono/produtos")?>" class="sidebar-btn">Produtos</a>
         <a href="<?=url("app/dono/pedidos")?>" class="sidebar-btn">Pedidos</a>
         <a href="<?=url("app/dono/tarefas")?>" class="sidebar-btn">Tarefas</a>
-        <a href="/facilita/" id="logout-btn" class="sidebar-btn">Sair</a>
+        <a class="sidebar-btn" id="sair">Sair</a>
       </div>
     </aside>
 
@@ -57,8 +55,8 @@
               <input type="password" name="password" class="form-input" required>
             </div>
             <div class="input-group">
-        <label for="confirm-password">Confirme a senha</label>
-        <input type="password" name="confirm-password" id="confirm-password" required />
+        <label for="confirm-password" class="form-label">Confirme a senha</label>
+        <input type="password" name="confirm-password" class="form-input" id="confirm-password" required />
       </div>
           </div>
           <div class="form-actions">
@@ -85,48 +83,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <div class="employee-info">
-                <div class="employee-photo">AM</div>
-                <div>Files</div>
-              </div>
-            </td>
-            <td>pedro@gmail.com</td>
-            <td>(51) 91234-5678</td>
-            <td class="actions-cell">
-              <div class="action-icon edit-icon"><i class="fas fa-edit"></i></div>
-              <div class="action-icon delete-icon"><i class="fas fa-trash"></i></div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="employee-info">
-                <div class="employee-photo">JO</div>
-                <div>Jhon</div>
-              </div>
-            </td>
-            <td>joao@gmail.com</td>
-            <td>(51) 99876-5432</td>
-            <td class="actions-cell">
-              <div class="action-icon edit-icon"><i class="fas fa-edit"></i></div>
-              <div class="action-icon delete-icon"><i class="fas fa-trash"></i></div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="employee-info">
-                <div class="employee-photo">CA</div>
-                <div>Luisa</div>
-              </div>
-            </td>
-            <td>luisa@gmail.com</td>
-            <td>(11) 98888-7777</td>
-            <td class="actions-cell">
-              <div class="action-icon edit-icon"><i class="fas fa-edit"></i></div>
-              <div class="action-icon delete-icon"><i class="fas fa-trash"></i></div>
-            </td>
-          </tr>
+           
         </tbody>
       </table>
     </main>

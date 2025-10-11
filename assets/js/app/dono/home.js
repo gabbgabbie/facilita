@@ -1,7 +1,7 @@
 const token = localStorage.getItem("token");
 let usuario = JSON.parse(localStorage.getItem("user-logado"));
 
-//console.log( token);
+console.log( token);
 console.log( usuario);
 
 
@@ -20,7 +20,7 @@ nome.innerHTML = `${usuario.name}`
         </div>
     `;
 
-//console.log(usuario.photo);
+
     
 const fotoPerfil = document.querySelector(".foto-perfil");
 fotoPerfil.src = "http://localhost/facilita/storage/images/" + usuario.photo;
@@ -50,6 +50,12 @@ async function loadCafe() {
    cafeName.textContent = data.data.name;
    cafeCNPJ.textContent = data.data.cnpj;
     
+    const container = document.querySelector('.dashboard-container');
+    const titulo = document.createElement('h2');
+    titulo.textContent = `Menu - ${data.data.name}`;
+    titulo.className = 'titulo-secao'
+    container.insertAdjacentElement("afterbegin", titulo)
+
 
   } catch (err) {
     console.error("Erro ao carregar cafeteria:", err);

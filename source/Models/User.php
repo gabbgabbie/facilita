@@ -279,6 +279,14 @@ public function findByPhone(string $phone): bool
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function findEmployees(int $cafe_id): array
+{
+    $sql = "SELECT id, name, email, phone, photo FROM users WHERE role = 'employee' AND cafe_id = :cafe_id";
+    $stmt = Connect::getInstance()->prepare($sql);
+    $stmt->execute(['cafe_id' => $cafe_id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 public function deleteUser(int $id): bool
 {

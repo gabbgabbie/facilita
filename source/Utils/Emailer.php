@@ -151,35 +151,66 @@ class Emailer
     }
 
 
-    public function sendWelcomeEmail(string $toEmail, string $toName): bool
-    {
-        try {
-            $this->mailer->clearAddresses();
-            $this->mailer->addAddress($toEmail, $toName);
 
-            $this->mailer->isHTML(true);
-            $this->mailer->Subject = 'Boas Vindas - Facilita ☕';
+    public function sendWelcomeEmail(string $toEmail, string $toName, string $type = "owner"): bool {
+    try {
+        $this->mailer->clearAddresses();
+        $this->mailer->addAddress($toEmail, $toName);
 
-            $this->mailer->Body = $this->getWelcomeEmailTemplate($toName);
-            $this->mailer->AltBody = "Olá {$toName},\n\nSua conta Facilita foi criada com sucesso.";
+        $this->mailer->isHTML(true);
 
-            return $this->mailer->send();
-        } catch (Exception $e) {
-            error_log("Erro ao enviar email: " . $this->mailer->ErrorInfo);
-            return false;
+        if ($type === "employee") {
+            $subject = "Boas-vindas à equipe - Facilita ☕";
+            $body = $this->getWelcomeEmailTemplate($toName, $type);
+            $altBody = "Olá {$toName}, você foi adicionado à equipe de uma cafeteria no sistema Facilita.";
+        } else {
+            $subject = "Boas-vindas - Facilita ☕";
+            $body = $this->getWelcomeEmailTemplate($toName, $type);
+            $altBody = "Olá {$toName}, sua conta Facilita foi criada com sucesso.";
         }
+
+        $this->mailer->Subject = $subject;
+        $this->mailer->Body = $body;
+        $this->mailer->AltBody = $altBody;
+
+        return $this->mailer->send();
+    } catch (Exception $e) {
+        error_log("Erro ao enviar email: " . $this->mailer->ErrorInfo);
+        return false;
     }
+}
 
 
-    private function getWelcomeEmailTemplate(string $name): string
-    {
-        return "
-        <!DOCTYPE html>
+
+private function getWelcomeEmailTemplate(string $name, string $type): string
+{
+    $title = $type === "employee"
+        ? "Seja bem-vindo(a) à equipe - Facilita☕"
+        : "Seja bem-vindo(a) à Facilita ☕";
+
+    $message = $type === "employee"
+        ? "
+            <p>Olá, {$name}!</p>
+            <p>Você agora faz parte de uma equipe no sistema Facilita!</p>
+            <p>Com sua conta, você poderá acessar suas tarefas, acompanhar pedidos e ajudar a deixar o atendimento ainda mais eficiente.</p>
+            <p>Estamos felizes em ter você com a gente. 💜</p>
+            <p>Desejamos um ótimo trabalho e muito sucesso!</p>
+        "
+        : "
+            <p>Olá, {$name}!</p>
+            <p>Estamos muito felizes por ter você com a gente.</p>
+            <p>Seu cadastro foi concluído com sucesso e agora você já pode começar a facilitar o dia a dia na sua cafeteria.</p>
+            <p>O próximo passo é cadastrar sua cafeteria — é rápido e fácil!</p>
+            <p>Conte com a gente para deixar sua experiência ainda mais fácil e prática. ☕</p>
+        ";
+
+    return "
+    <!DOCTYPE html>
 <html lang='pt-BR'>
 <head>
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <title>Bem-vindo(a) à Facilita!</title>
+  <title>{$title}</title>
   <style>
     body {
       margin: 0;
@@ -187,7 +218,6 @@ class Emailer
       font-family: Arial, sans-serif;
       background-color: #f5f7fa;
     }
-
     .container {
       max-width: 600px;
       margin: 0 auto;
@@ -195,79 +225,36 @@ class Emailer
       border-radius: 12px;
       overflow: hidden;
     }
-
     .header {
       background-color: #c286ba;
       padding: 30px;
       text-align: center;
       color: #ffffff;
     }
-
-    .header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .content {
-      padding: 40px 30px;
-      color: #666666;
-      line-height: 1.6;
-    }
-
-    .code-box {
-      background-color: #f8f9fa;
-      border: 3px solid #9e6897;
-      border-radius: 8px;
-      padding: 25px;
-      margin: 30px 0;
-      text-align: center;
-    }
-
-    .code {
-      font-size: 36px;
-      font-weight: bold;
-      color: #4f744a;
-      letter-spacing: 8px;
-      font-family: monospace;
-    }
-
+    .header h1 { margin: 0; font-size: 24px; }
+    .content { padding: 40px 30px; color: #666; line-height: 1.6; }
     .footer {
       background-color: #f8f9fa;
       padding: 20px;
       text-align: center;
-      color: #999999;
+      color: #999;
       font-size: 12px;
     }
   </style>
 </head>
 <body>
   <div class='container'>
-    
-    <div class='header'>
-      <h1>Seja bem-vindo(a) à Facilita ☕</h1>
-    </div>
-
-    <div class='content'>
-      <p>Olá, {$name}!</p>
-
-      <p>Estamos muito felizes por ter você com a gente.</p>
-
-      <p>Seu cadastro foi concluído com sucesso e agora você já pode começar a facilitar o dia a dia na sua cafeteria.</p>
-
-      <p>O próximo passo é cadastrar sua cafeteria — é rápido e fácil! Assim, você poderá adicionar funcionários, produtos e começar a gerenciar tudo em um só lugar.</p>
-
-      <p>Conte com a gente para deixar sua experiência ainda mais fácil e prática. ☕</p>
-    </div>
-
+    <div class='header'><h1>{$title}</h1></div>
+    <div class='content'>{$message}</div>
     <div class='footer'>
       <p>© 2025 Facilita - Este é um e-mail automático, não responda.</p>
     </div>
-
   </div>
 </body>
 </html>
-        ";
-    }
+    ";
 }
 
 
+
+}

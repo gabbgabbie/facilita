@@ -1,48 +1,82 @@
-import {
-    HttpUser
-} from "../../../_shared/HttpUser.js";
-const api = new HttpUser();
+import { Toast } from "/facilita/assets/_shared/js/Toast.js";
+
+const toast = new Toast();
 const token = localStorage.getItem("token");
 const usuario = JSON.parse(localStorage.getItem("user-logado"));
 
-const fotoPerfil = document.querySelector(".profile-photo");
-fotoPerfil.src = "http://localhost/facilita/storage/images/" + usuario.photo;
+const cafeID = usuario.cafe_id;
 
-const sair = document.querySelector("#logout-btn");
-sair.addEventListener('click', async (e) => {
-    e.preventDefault();
-    localStorage.removeItem("user-logado");
-    localStorage.removeItem("token");
-    window.location.href = "/facilita/"
-});
+async function listEmployees() {
+    try {
+        const listFormData = new FormData();
+        listFormData.append("cafe_id", cafeID);
 
-console.log(usuario);
-
-const profileInfo = document.querySelector("#profile-name");
-profileInfo.innerHTML = `        ${usuario.name}
-
-        `;
-
-
-const formRegister = document.querySelector("#employee-form");
-
-console.log("API inicializada", api);
-formRegister.addEventListener("submit", async (event) => {
-    event.preventDefault();
-        api.setAuthToken(token);
-    fetch("http://localhost/facilita/api/users/add",
-        {
+        const response = await fetch("http://localhost/facilita/api/users/employees", {
             method: "POST",
-            body: new FormData(formRegister)
-        }
-    ).then((respose) => {
-        console.log(respose);
-    respose.json().then((user) => {
-            console.log(user);
+            headers: { "token": token },
+            body: listFormData
         });
 
-        
+        const data = await response.json();
+
+        if (!response.ok || data.type == 'error') {
+            console.log(data.message);
+            return;
+        }
+
+        const table = document.querySelector('.employees-table')
+
+        data.data.forEach(employee => {
+            console.log(employee);
+            
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>
+                    <div class="employee-info">
+                        <div class="employee-photo"><img src="http://localhost/facilita/storage/images/${employee.photo}"></img></div>
+                        <div>${employee.name}</div>
+                    </div>
+                </td>
+                <td>${employee.email}</td>
+                <td>${employee.phone}</td>
+                <td class="actions-cell">
+                    <div class="action-icon edit-icon"><i class="fas fa-edit"></i></div>
+                    <div class="action-icon delete-icon"><i class="fas fa-trash"></i></div>
+                </td>
+            `;
+            table.appendChild(tr);
+        });
+
+    } catch (err) {
+        console.error("Erro ao listar funcionários:", err);
+    }
+}
+
+listEmployees();
+
+//add funcionarios
+
+const formRegister = document.querySelector("#employee-form");
+formRegister.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(formRegister);
+    formData.append("cafe_id", cafeID);
+  try {
+    const response = await fetch("http://localhost/facilita/api/users/addEmployee", {
+      method: "POST",
+      headers: { "token": token },
+      body: formData
     });
 
+    const data = await response.json();
+    if (!response.ok) {
+      console.log(data.message);
+      return;
+    }
 
+   toast.show(data.message, data.type)
+
+  } catch (err) {
+    console.error("Erro ao adicionar funcionario:", err);
+  }
 });

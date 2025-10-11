@@ -38,6 +38,8 @@ $route->group(null);
 $route->group("/app/funcionario");
 
 $route->get("/", "Employee:home");
+$route->get("/perfil", "Employee:profile");
+$route->get("/mudar-senha", "Employee:password");
 $route->group(null);
 
 $route->group("/admin");

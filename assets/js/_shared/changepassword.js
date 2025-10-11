@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (data.type == "success") {
         setTimeout(() => {
-        window.location.href = "/facilita/app/dono/perfil";
+        window.history.back();
         }, 3000); // 1000ms = 1 segundo
         }
 

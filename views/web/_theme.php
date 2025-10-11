@@ -40,3 +40,6 @@
     <?php if ($this->section("specific-css")): ?>
         <?= $this->section("specific-css"); ?>
     <?php endif; ?>
+    <?php if ($this->section("specific-script")): ?>
+        <?= $this->section("specific-script"); ?>
+    <?php endif; ?>

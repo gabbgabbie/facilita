@@ -36,7 +36,7 @@
                             <i class="fas fa-envelope"></i> Email
                         </label>
                         <input type="email" name="email" class="form-input" id="inputEmail" required>
-                        <p> <a href="<?=url("app/dono/mudar-senha")?>">Alterar senha</a></p>
+                        <p> <a href="<?=url("app/funcionario/mudar-senha")?>">Alterar senha</a></p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">

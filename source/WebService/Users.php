@@ -17,6 +17,30 @@ class Users extends Api
             ->back($users->findAll());
     }
 
+   public function listEmployees(): void
+{
+    $this->auth();
+    
+    $data = $_POST; 
+
+    if (!isset($data["cafe_id"]) || !filter_var($data["cafe_id"], FILTER_VALIDATE_INT)) {
+        $this->call(400, "bad_request", "Cafe ID inválido", "error")->back();
+        return;
+    }
+
+    $user = new User();
+    $employees = $user->findEmployees((int)$data["cafe_id"]);
+
+    if (empty($employees)) {
+        $this->call(200, "success", "Nenhum funcionário encontrado", "error")->back();
+        return;
+    }
+
+    $employees = 
+    $this->call(200, "success", "Funcionários encontrados com sucesso", "success")->back($employees);
+}
+
+
 
 public function createUser(array $data)
 {
@@ -66,8 +90,7 @@ public function createUser(array $data)
     }
 
     $emailer = new Emailer();
-    $sent = $emailer->sendWelcomeEmail($user->getEmail(), $user->getName());
-
+    $sent = $emailer->sendWelcomeEmail($user->getEmail(), $user->getName(), $user->getRole());
     if (!$sent) {
         error_log("Falha ao enviar e-mail de boas-vindas para " . $user->getEmail());
     }
@@ -82,6 +105,73 @@ public function createUser(array $data)
     ];
 
     $this->call(201, "created", "Cadastro realizado com sucesso!", "success")->back($response);
+}
+
+public function createEmployee(array $data)
+{
+    $this->auth();
+    if (empty($data["name"]) || empty($data["email"]) || empty($data["password"]) || empty($data["phone"]) || empty($data["confirm-password"])) {
+        $this->call(400, "bad_request", "Preencha todos os dados", "error")->back();
+        return;
+    }
+
+    if (!filter_var($data["email"], FILTER_VALIDATE_EMAIL)) {
+        $this->call(400, "bad_request", "Email inválido", "error")->back();
+        return;
+    }
+    
+    if ($data["password"] !== $data["confirm-password"]) {
+        $this->call(400, "bad_request", "As senhas não coincidem", "error")->back();
+        return;
+    }
+    $userCheck = new User();
+    if ($userCheck->findByEmail($data["email"])) {
+        $this->call(400, "bad_request", "Esse email já está cadastrado", "error")->back();
+        return;
+    }
+
+    if ($userCheck->findByPhone($data["phone"])) {
+        $this->call(400, "bad_request", "Esse número de telefone já está cadastrado", "error")->back();
+        return;
+    }
+    $cafeId = $data["cafe_id"] ?? null;
+
+    $user = new User(
+        null,
+        $data["name"],
+        $data["email"],
+        $data["password"],
+        $data["phone"],
+        $data["photo"] ?? "https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png",
+        $data["role"],
+        null,
+        null,
+        false,
+        $cafeId
+    );
+
+    if (!$user->insert()) {
+        $this->call(500, "internal_server_error", $user->getErrorMessage(), "error")->back();
+        return;
+    }
+
+    $emailer = new Emailer();
+    $sent = $emailer->sendWelcomeEmail($user->getEmail(), $user->getName(), $user->getRole());
+
+    if (!$sent) {
+        error_log("Falha ao enviar e-mail de boas-vindas para " . $user->getEmail());
+    }
+
+
+    $response = [
+        "name" => $user->getName(),
+        "email" => $user->getEmail(),
+        "role" => $user->getRole(),
+        "phone" => $user->getPhone(),
+        "cafe_id" => $user->getCafeId()
+    ];
+
+    $this->call(201, "created", "Funcionario adicionado com sucesso!", "success")->back($response);
 }
 
 

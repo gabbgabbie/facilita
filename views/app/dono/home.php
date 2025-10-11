@@ -25,12 +25,11 @@
         <p><strong>CNPJ:</strong>  <span id="cafeCNPJ"></span></p>
         <p><strong>Endereço:</strong>  <span id="cafeAddress"></span></p>
         <a href="<?=url("app/dono/cafeteria")?>" class="sidebar-btn">Editar dados</a>
-        <a href="/facilita/" class="sidebar-btn">Sair</a>
+        <a href="/facilita/" id="sair" class="sidebar-btn">Sair</a>
       </div>
     </aside>
 
     <main class="dashboard-container">
-      <h2 class="titulo-secao">Painel de Gerenciamento - Tal Cafeteria</h2>
 
       <div class="grid-cards">
         <a href="<?=url("app/dono/funcionarios")?>" class="card">

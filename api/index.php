@@ -29,6 +29,8 @@ $route->get("/login", "Users:login");
 
 $route->get("/", "Users:listUsers");
 
+$route->post("/employees", "Users:listEmployees");
+
 $route->get("/id/{id}", "Users:listUserById");
 
 $route->post("/add", "Users:createUser");

@@ -1,9 +1,14 @@
 const usuario = JSON.parse(localStorage.getItem("user-logado"));
 const token = localStorage.getItem("token");
 
-if (!token) {
+if (!token || usuario.role != "owner") {
         console.log("vc nao esta logado");   
         window.location.href = "/facilita/login"
+}
+
+const fotoPerfil = document.querySelector(".profile-photo");
+if (fotoPerfil) {
+  fotoPerfil.src = "http://localhost/facilita/storage/images/" + usuario.photo;
 }
 
 //info da header
@@ -16,8 +21,19 @@ sair.addEventListener('click', async (e) => {
     e.preventDefault();
     localStorage.removeItem("user-logado");
     localStorage.removeItem("token");
-    window.location.href = "/facilita/"
+    window.location.href = "/facilita/login"
 });
+
+const sideSair = document.querySelector("#sair");
+  if (sideSair) {
+    sideSair.addEventListener('click', async (e) => {
+        e.preventDefault();
+        localStorage.removeItem("user-logado");
+        localStorage.removeItem("token");
+        window.location.href = "/facilita/login"
+    });
+  }
+
 
 // menu
 const menu = document.querySelector(".logo-texto");
