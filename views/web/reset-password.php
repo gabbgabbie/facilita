@@ -44,6 +44,6 @@
         </div>
     </div>
  <?php  $this->start("specific-css"); ?>
-<link rel="stylesheet" href="<?= url("assets/css/app/dono/password.css"); ?>">
+<link rel="stylesheet" href="<?= url("assets/css/_shared/password.css"); ?>">
 <?php $this->end(); ?>
 <script type="module" src="<?= url('assets/js/web/reset-password.js') ?>"></script>

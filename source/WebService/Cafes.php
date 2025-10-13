@@ -14,40 +14,40 @@ class Cafes extends Api
     }
 
     public function createCafe(array $data)
-{
-    if (empty($data["name"]) || empty($data["cnpj"]) || empty($data["address"])) {
-        $this->call(400, "bad_request", "Dados obrigatórios faltando", "error")->back();
-    return;
+    {
+        if (empty($data["name"]) || empty($data["cnpj"]) || empty($data["address"])) {
+            $this->call(400, "bad_request", "Dados obrigatórios faltando", "error")->back();
+            return;
+        }
+
+        $cafeCheck = new Cafe();
+
+        if ($cafeCheck->findByCnpj($data["cnpj"])) {
+            $this->call(400, "bad_request", "Esse CNPJ já está cadastrado", "error")->back();
+            return;
+        }
+
+        $cafe = new Cafe(
+            null,
+            $data['name'] ?? null,
+            $data['cnpj'] ?? null,
+            $data['address'] ?? null
+        );
+
+        if (!$cafe->insert()) {
+            $this->call(500, "internal_server_error", $cafe->getErrorMessage(), "error")->back();
+            return;
+        }
+
+        $response = [
+            "id" => $cafe->getId(),
+            "name" => $cafe->getName(),
+            "cnpj" => $cafe->getCnpj(),
+            "address" => $cafe->getAddress()
+        ];
+
+        $this->call(201, "created", "Cafeteria criada com sucesso", "success")->back($response);
     }
-
-    $cafeCheck = new Cafe();
-
-    if ($cafeCheck->findByCnpj($data["cnpj"])) {
-        $this->call(400, "bad_request", "Esse CNPJ já está cadastrado", "error")->back();
-        return;
-    }
-
-    $cafe = new Cafe(
-        null,
-        $data['name'] ?? null,
-        $data['cnpj'] ?? null,
-        $data['address'] ?? null
-    );
-
-    if (!$cafe->insert()) {
-        $this->call(500, "internal_server_error", $cafe->getErrorMessage(), "error")->back();
-        return;
-    }
-
-    $response = [
-        "id" => $cafe->getId(),
-        "name" => $cafe->getName(),
-        "cnpj" => $cafe->getCnpj(),
-        "address" => $cafe->getAddress()
-    ];
-
-    $this->call(201, "created", "Cafeteria criada com sucesso", "success")->back($response);
-}
 
 
     public function listCafeById (array $data): void
@@ -77,67 +77,66 @@ class Cafes extends Api
     }
 
     public function updateCafe(array $data): void
-{
+    {
 
-    $this->auth();
-    if (!isset($data["id"])) {
-        $this->call(400, "bad_request", "ID inválido", "error")->back();
-        return;
+        $this->auth();
+        if (!isset($data["id"])) {
+            $this->call(400, "bad_request", "ID inválido", "error")->back();
+            return;
+        }
+
+        if (in_array("", $data)) {
+            $this->call(400, "bad_request", "Dados inválidos", "error")->back();
+            return;
+        }
+
+        $cafeCheck = new Cafe();
+
+        if ($cafeCheck->findByCnpj($data["cnpj"]) && $cafeCheck->getId() != $data["id"]) {
+            $this->call(400, "bad_request", "Esse CNPJ já está cadastrado em outra conta", "error")->back();
+            return;
+        }
+
+
+        $cafe = new Cafe(
+            null,
+            $data["name"] ?? null,
+            $data["cnpj"] ?? null,
+            $data["address"] ?? null
+        );
+        $cafe->setId((int)$data["id"]);
+
+        if (!$cafe->updateCafe()) {
+            $this->call(500, "internal_server_error", $cafe->getErrorMessage(), "error")->back();
+            return;
+        }
+
+        $response = [
+            "id" => $cafe->getId(),
+            "name" => $cafe->getName(),
+            "cnpj" => $cafe->getCnpj(),
+            "address" => $cafe->getAddress()
+        ];
+
+        $this->call(200, "success", "Dados da cafeteria atualizados com sucesso!", "success")->back($response);
     }
 
-    if (in_array("", $data)) {
-        $this->call(400, "bad_request", "Dados inválidos", "error")->back();
-        return;
+    public function deleteCafe(array $data): void
+    {
+        $this->auth();
+        if (!isset($data["id"]) || !filter_var($data["id"], FILTER_VALIDATE_INT)) {
+            $this->call(400, "bad_request", "ID inválido", "error")->back();
+            return;
+        }
+
+        $cafe = new Cafe();
+        if (!$cafe->deleteCafe((int) $data["id"])) {
+            $this->call(500, "internal_server_error", "Erro ao excluir cafeteria", "error")->back();
+            return;
+        }
+
+        $this->call(200, "success", "Cafeteria excluída com sucesso", "success")->back();
     }
-
-    $cafeCheck = new Cafe();
-
-    if ($cafeCheck->findByCnpj($data["cnpj"]) && $cafeCheck->getId() != $data["id"]) {
-        $this->call(400, "bad_request", "Esse CNPJ já está cadastrado em outra conta", "error")->back();
-        return;
-    }
-
-
-    $cafe = new Cafe(
-        null,
-        $data["name"] ?? null,
-        $data["cnpj"] ?? null,
-        $data["address"] ?? null
-    );
-    $cafe->setId((int)$data["id"]);
-
-    if (!$cafe->updateCafe()) {
-        $this->call(500, "internal_server_error", $cafe->getErrorMessage(), "error")->back();
-        return;
-    }
-
-    $response = [
-        "id" => $cafe->getId(),
-        "name" => $cafe->getName(),
-        "cnpj" => $cafe->getCnpj(),
-        "address" => $cafe->getAddress()
-    ];
-
-    $this->call(200, "success", "Dados da cafeteria atualizados com sucesso!", "success")
-        ->back($response);
-}
-
-   public function deleteCafe(array $data): void
-{
-    $this->auth();
-    if (!isset($data["id"]) || !filter_var($data["id"], FILTER_VALIDATE_INT)) {
-        $this->call(400, "bad_request", "ID inválido", "error")->back();
-        return;
-    }
-
-    $cafe = new Cafe();
-    if (!$cafe->deleteCafe((int) $data["id"])) {
-        $this->call(500, "internal_server_error", "Erro ao excluir cafeteria", "error")->back();
-        return;
-    }
-
-    $this->call(200, "success", "Cafeteria excluída com sucesso", "success")->back();
-}
 
 
 }

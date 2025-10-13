@@ -29,7 +29,7 @@ $route->get("/login", "Users:login");
 
 $route->get("/", "Users:listUsers");
 
-$route->post("/employees", "Users:listEmployees");
+$route->get("/employees/{cafe_id}", "Users:listEmployees");
 
 $route->get("/id/{id}", "Users:listUserById");
 

@@ -8,32 +8,30 @@ const cafeID = usuario.cafe_id;
 
 async function listEmployees() {
     try {
-        const listFormData = new FormData();
-        listFormData.append("cafe_id", cafeID);
-
-        const response = await fetch("http://localhost/facilita/api/users/employees", {
-            method: "POST",
+        const response = await fetch(`http://localhost/facilita/api/users/employees/${cafeID}`, {
+            method: "GET",
             headers: { "token": token },
-            body: listFormData
         });
 
         const data = await response.json();
 
-        if (!response.ok || data.type == 'error') {
+        if (data.type == "error") {
             console.log(data.message);
             return;
         }
 
-        const table = document.querySelector('.employees-table')
+        const table = document.querySelector(".employees-table");
 
         data.data.forEach(employee => {
             console.log(employee);
-            
-            const tr = document.createElement('tr');
+
+            const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>
                     <div class="employee-info">
-                        <div class="employee-photo"><img src="http://localhost/facilita/storage/images/${employee.photo}"></img></div>
+                        <div class="employee-photo">
+                            <img src="http://localhost/facilita/storage/images/${employee.photo}" alt="Foto">
+                        </div>
                         <div>${employee.name}</div>
                     </div>
                 </td>
@@ -51,6 +49,7 @@ async function listEmployees() {
         console.error("Erro ao listar funcionários:", err);
     }
 }
+
 
 listEmployees();
 
@@ -74,7 +73,11 @@ formRegister.addEventListener('submit', async (e) => {
       return;
     }
 
-   toast.show(data.message, data.type)
+    toast.show(data.message, data.type);
+    setTimeout(() => { 
+        location.reload(); 
+    }, 3000);
+
 
   } catch (err) {
     console.error("Erro ao adicionar funcionario:", err);

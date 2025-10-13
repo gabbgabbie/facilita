@@ -45,8 +45,10 @@ form.addEventListener("submit", async (event) => {
 
    toast.show(data.message, data.type)
     
-    localStorage.setItem("user-logado", JSON.stringify(data.data));
-    location.reload();
+    if (data.type == "success") {
+          localStorage.setItem("user-logado", JSON.stringify(data.data));
+    }
+    setTimeout(() => { location.reload(); }, 3000);
 
     if (data.trocouEmail){
       localStorage.removeItem("user-logado")
